@@ -135,7 +135,7 @@ body {
     height: 50px;
     background-color: white;
     left: 50%;
-    bottom: 10%;
+    bottom: 15%; /* Moved slightly higher */
     transform: translate(-50%, 0) rotate(45deg);
     z-index: 5;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
@@ -147,7 +147,7 @@ body {
     height: 80px;
     background-color: #d32f2f;
     left: 50%;
-    bottom: 18%;
+    bottom: 22%; /* Moved slightly higher to be near home plate */
     transform: translate(-50%, 0);
     z-index: 10;
     border-radius: 10px 10px 0 0;
@@ -180,15 +180,17 @@ body {
 
 #ball {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 25px; /* Slightly larger ball for easier hitting */
+    height: 25px;
     background-color: white;
+    border: 2px solid #ccc; /* Add border for better visibility */
     border-radius: 50%;
     top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     visibility: hidden;
     z-index: 5;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Add shadow for depth */
 }
 
 #chant-bubble {
@@ -289,6 +291,19 @@ body {
     height: 50px;
 }
 
+#instructions {
+    padding: 10px 15px;
+    text-align: center;
+    background-color: rgba(0,0,0,0.05);
+    font-size: 0.9rem;
+    color: #444;
+    line-height: 1.4;
+}
+
+#instructions p {
+    margin: 5px 0;
+}
+
 /* Animations */
 @keyframes pitch {
     0% { transform: translate(-50%, -50%) scale(1); }
@@ -297,8 +312,10 @@ body {
 
 @keyframes swing {
     0% { transform: translate(-50%, 0) rotate(0deg); }
-    50% { transform: translate(-50%, 0) rotate(45deg); }
-    100% { transform: translate(-50%, 0) rotate(-10deg); }
+    15% { transform: translate(-60%, 0) rotate(-20deg); } /* Wind up */
+    50% { transform: translate(-50%, 0) rotate(30deg); } /* Swing through */
+    85% { transform: translate(-40%, 0) rotate(45deg); } /* Follow through */
+    100% { transform: translate(-50%, 0) rotate(0deg); } /* Return to ready */
 }
 
 @keyframes hit {

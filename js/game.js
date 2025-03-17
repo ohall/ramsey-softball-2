@@ -71,6 +71,20 @@ document.addEventListener('DOMContentLoaded', () => {
     field.addEventListener('touchstart', handleTouchStart);
     field.addEventListener('touchend', handleTouchEnd);
     
+    // Desktop keyboard controls
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.code === 'Enter') {
+            if (gameActive && pitchInProgress) {
+                handleTouchStart(e);
+            } else if (!gameActive) {
+                startGame();
+            }
+        }
+    });
+    
+    // Desktop mouse controls
+    field.addEventListener('click', handleTouchStart);
+    
     // Sound toggle control
     soundToggle.addEventListener('click', toggleSound);
     
