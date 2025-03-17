@@ -252,11 +252,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     hitResult = 'home run';
                     ballElement.style.animation = 'homeRun 1.5s forwards';
                     showFeedback('HOME RUN! 🎉');
+                    playSound(soundHomerun);
+                    crowdLayer.classList.add('crowd-cheer');
+                    setTimeout(() => crowdLayer.classList.remove('crowd-cheer'), 3000);
                     score += Math.floor(Math.random() * 3) + 1; // 1-3 runs
                 } else {
                     hitResult = 'triple';
                     ballElement.style.animation = 'hit 1s forwards';
                     showFeedback('Triple! 🔥');
+                    playSound(soundHit, 0.9);
+                    playSound(soundCheer, 0.5);
                     score += 1;
                 }
             } else if (timing === 4) { // Great hit
@@ -264,11 +269,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     hitResult = 'double';
                     ballElement.style.animation = 'hit 0.8s forwards';
                     showFeedback('Double! 👏');
+                    playSound(soundHit, 0.8);
+                    playSound(soundCheer, 0.3);
                     score += 1;
                 } else {
                     hitResult = 'single';
                     ballElement.style.animation = 'hit 0.6s forwards';
                     showFeedback('Single! ✓');
+                    playSound(soundHit, 0.7);
                     score += Math.random() < 0.3 ? 1 : 0; // 30% chance to score a run
                 }
             } else if (timing === 3) { // Good hit
@@ -276,21 +284,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     hitResult = 'single';
                     ballElement.style.animation = 'hit 0.6s forwards';
                     showFeedback('Single! ✓');
+                    playSound(soundHit, 0.6);
                     score += Math.random() < 0.2 ? 1 : 0; // 20% chance to score a run
                 } else {
                     hitResult = 'foul';
                     ballElement.style.animation = 'hit 0.5s forwards';
                     showFeedback('Foul ball!');
+                    playSound(soundHit, 0.5);
                 }
             } else if (timing === 2) { // Fair hit
                 if (Math.random() < 0.6) {
                     hitResult = 'foul';
                     ballElement.style.animation = 'hit 0.5s forwards';
                     showFeedback('Foul ball!');
+                    playSound(soundHit, 0.4);
                 } else {
                     hitResult = 'out';
                     ballElement.style.animation = 'hit 0.6s forwards';
                     showFeedback('Out!');
+                    playSound(soundHit, 0.3);
                     outs++;
                     checkInningOver();
                 }
@@ -298,6 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 hitResult = 'out';
                 ballElement.style.animation = 'hit 0.4s forwards';
                 showFeedback('Out!');
+                playSound(soundHit, 0.2);
                 outs++;
                 checkInningOver();
             }
