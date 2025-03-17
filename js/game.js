@@ -168,11 +168,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ballElement.style.visibility = 'visible';
         
         // Random pitch speed (affects animation duration)
-        const pitchSpeed = 800 + Math.random() * 400; // 800-1200ms
+        const pitchSpeed = 1200 + Math.random() * 400; // 1200-1600ms (slower to give more reaction time)
         
         // Random pitch curve (left/right movement)
         const curveFactor = Math.random() * 30 - 15; // -15 to 15
-        ballElement.style.animation = `pitch ${pitchSpeed/1000}s cubic-bezier(0.42, 0, 1.0, 1.0) forwards`;
+        ballElement.style.animation = `pitch ${pitchSpeed/1000}s cubic-bezier(0.42, 0, 0.58, 1.0) forwards`; // Changed to ease-in-out
         
         // Add curve ball effect
         ballElement.style.transform = `translate(calc(-50% + ${curveFactor}px), -50%)`;
@@ -204,15 +204,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const ballRect = ballElement.getBoundingClientRect();
         const homeRect = document.getElementById('home-plate').getBoundingClientRect();
         
-        // Distance from ball to home plate (normalized 0-1, where 1 is perfect timing)
-        const distanceToPlate = 1 - Math.min(1, Math.abs(ballRect.top - homeRect.top) / homeRect.top);
+        // Calculate vertical distance - how close the ball is to home plate
+        // A positive value means the ball is above the plate, negative means it's past the plate
+        const verticalDistance = homeRect.top - ballRect.bottom;
         
-        // Convert distance to swing timing quality (1-5)
-        if (distanceToPlate > 0.9) swingTiming = 5; // Perfect
-        else if (distanceToPlate > 0.7) swingTiming = 4; // Great
-        else if (distanceToPlate > 0.5) swingTiming = 3; // Good
-        else if (distanceToPlate > 0.3) swingTiming = 2; // Fair
+        // Calculate the optimal hit range (normalized to 0-1)
+        // The closer to 0, the better the timing
+        const normalizedDistance = Math.abs(verticalDistance) / 100;
+        const timingScore = Math.max(0, 1 - normalizedDistance);
+        
+        // Convert timing score to swing timing quality (1-5)
+        if (timingScore > 0.9) swingTiming = 5; // Perfect
+        else if (timingScore > 0.7) swingTiming = 4; // Great
+        else if (timingScore > 0.5) swingTiming = 3; // Good
+        else if (timingScore > 0.3) swingTiming = 2; // Fair
         else swingTiming = 1; // Poor
+        
+        // Add debug info if needed
+        // console.log(`Ball position: ${ballRect.top}, Plate position: ${homeRect.top}, Distance: ${verticalDistance}, Timing: ${swingTiming}`);
         
         // Process hit result
         pitchResult(swingTiming);
