@@ -10,6 +10,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const chantBubble = document.getElementById('chant-bubble');
     const field = document.getElementById('field');
     
+    // Create and add field background
+    const fieldBackground = document.createElement('div');
+    fieldBackground.id = 'field-background';
+    field.appendChild(fieldBackground);
+    
+    // Create and add base paths
+    const basePaths = document.createElement('div');
+    basePaths.id = 'base-paths';
+    field.appendChild(basePaths);
+    
+    // Create bases
+    for (let i = 1; i <= 3; i++) {
+        const base = document.createElement('div');
+        base.className = 'base';
+        base.id = `base-${i}`;
+        field.appendChild(base);
+    }
+    
     // Game state
     let gameActive = false;
     let score = 0;
