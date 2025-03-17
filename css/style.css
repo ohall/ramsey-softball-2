@@ -292,7 +292,7 @@ body {
 /* Animations */
 @keyframes pitch {
     0% { transform: translate(-50%, -50%) scale(1); }
-    100% { transform: translate(-50%, 300%) scale(0.9); }
+    100% { transform: translate(-50%, 400%) scale(0.9); }
 }
 
 @keyframes swing {
