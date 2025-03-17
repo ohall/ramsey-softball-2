@@ -1,0 +1,199 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    touch-action: manipulation;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: fixed;
+}
+
+#game-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#scoreboard {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#field {
+    flex-grow: 1;
+    background-color: #7cba7c;
+    position: relative;
+    overflow: hidden;
+    perspective: 800px;
+}
+
+/* Field elements */
+#pitcher-mound {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: #b0b0b0;
+    border-radius: 50%;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+}
+
+#home-plate {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    left: 50%;
+    bottom: 10%;
+    transform: translate(-50%, 0) rotate(45deg);
+}
+
+#batter {
+    position: absolute;
+    width: 40px;
+    height: 80px;
+    background-color: #d32f2f;
+    left: 50%;
+    bottom: 18%;
+    transform: translate(-50%, 0);
+    z-index: 10;
+}
+
+#ball {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    z-index: 5;
+}
+
+#chant-bubble {
+    position: absolute;
+    background-color: white;
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 1rem;
+    max-width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(0);
+    transform-origin: bottom center;
+    animation: popIn 0.3s forwards;
+    z-index: 20;
+}
+
+#chant-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+}
+
+.hidden {
+    display: none;
+}
+
+#controls {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    background-color: #eee;
+}
+
+#start-game {
+    padding: 12px 25px;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#start-game:hover {
+    background-color: #b71c1c;
+}
+
+#feedback-message {
+    padding: 10px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    height: 50px;
+}
+
+/* Animations */
+@keyframes pitch {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    100% { transform: translate(-50%, 300%) scale(0.9); }
+}
+
+@keyframes swing {
+    0% { transform: translate(-50%, 0) rotate(0deg); }
+    50% { transform: translate(-50%, 0) rotate(45deg); }
+    100% { transform: translate(-50%, 0) rotate(-10deg); }
+}
+
+@keyframes hit {
+    0% { transform: translate(-50%, 0) scale(1); }
+    50% { transform: translate(150%, -200%) scale(0.8); }
+    100% { transform: translate(300%, -400%) scale(0.6); }
+}
+
+@keyframes homeRun {
+    0% { transform: translate(-50%, 0) scale(1); }
+    100% { transform: translate(-50%, -1000%) scale(0.1); }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    #scoreboard {
+        font-size: 1rem;
+        padding: 8px;
+    }
+    
+    #chant-bubble {
+        font-size: 0.9rem;
+        max-width: 150px;
+    }
+    
+    #controls button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    
+    #feedback-message {
+        font-size: 1.2rem;
+    }
+}
