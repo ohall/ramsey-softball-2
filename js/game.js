@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedbackMessage = document.getElementById('feedback-message');
     const chantBubble = document.getElementById('chant-bubble');
     const field = document.getElementById('field');
+    const soundToggle = document.getElementById('sound-toggle');
+    const crowdLayer = document.getElementById('crowd-layer');
+    
+    // Sound elements
+    const soundHit = document.getElementById('sound-hit');
+    const soundSwing = document.getElementById('sound-swing');
+    const soundCheer = document.getElementById('sound-cheer');
+    const soundHomerun = document.getElementById('sound-homerun');
     
     // Create and add field background
     const fieldBackground = document.createElement('div');
@@ -35,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let outs = 0;
     let pitchInProgress = false;
     let swingTiming = 0; // 0 = not swinging, 1-5 = timing quality (5 is perfect)
+    let soundEnabled = true;
     
     // Chants from the dugout
     const dugoutChants = [
@@ -61,6 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mobile touch controls
     field.addEventListener('touchstart', handleTouchStart);
     field.addEventListener('touchend', handleTouchEnd);
+    
+    // Sound toggle control
+    soundToggle.addEventListener('click', toggleSound);
     
     // Start the game
     function startGame() {
@@ -100,6 +112,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 feedbackMessage.textContent = '';
             }
         }, duration);
+    }
+    
+    // Toggle sound on/off
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+        if (soundEnabled) {
+            soundToggle.textContent = '🔊';
+            soundToggle.classList.remove('sound-off');
+            soundToggle.classList.add('sound-on');
+        } else {
+            soundToggle.textContent = '🔇';
+            soundToggle.classList.remove('sound-on');
+            soundToggle.classList.add('sound-off');
+        }
+    }
+    
+    // Play a sound if enabled
+    function playSound(sound, volume = 1.0) {
+        if (!soundEnabled) return;
+        
+        sound.volume = volume;
+        sound.currentTime = 0;
+        sound.play().catch(e => console.log('Audio play error:', e));
     }
     
     // Show random dugout chant
@@ -158,6 +193,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleTouchStart(e) {
         if (!gameActive || !pitchInProgress) return;
         e.preventDefault();
+        
+        // Play swing sound
+        playSound(soundSwing, 0.7);
         
         // Start swing animation
         batterElement.style.animation = 'swing 0.3s forwards';
